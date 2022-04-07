@@ -13,11 +13,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import utilities.WebDriverMethods;
 
 import java.util.Locale;
 import java.util.Random;
 
 public class EcommerceStepsDefinitions {
+    WebDriverMethods webDriverMethods = new WebDriverMethods();
     WebDriver automationStepsWebDriver;
     WebDriverWait automationStepsWait;
     LoginPageComponents loginPage;
@@ -34,11 +36,12 @@ public class EcommerceStepsDefinitions {
     @BeforeAll
     public static void setProperties() {
         System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"\\src\\main\\resources\\chromedriver.exe");
+        System.setProperty("webdriver.gecko.driver",System.getProperty("user.dir")+"\\src\\main\\resources\\geckodriver.exe");
     }
 
     @Before
     public void initiateBrowserToUrl(){
-        automationStepsWebDriver = new ChromeDriver();
+        automationStepsWebDriver = webDriverMethods.openWebDriver("Chrome");
         automationStepsWait = new WebDriverWait(automationStepsWebDriver,20);
         automationStepsWebDriver.manage().window().maximize();
         regPage = new RegistrationPageComponents(automationStepsWebDriver,automationStepsWait);
@@ -51,8 +54,7 @@ public class EcommerceStepsDefinitions {
 
     @After
     public void closeTheWebDriver() throws InterruptedException {
-        Thread.sleep(5000);
-        automationStepsWebDriver.close();
+    webDriverMethods.closeWebDriver();
     }
 
     @When("user clicks on register link")
